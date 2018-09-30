@@ -1,62 +1,74 @@
 <template>
-  <el-main>
-      <transition-group enter-active-class="animated bounceInDown" leave-active-class="animated rollOut">
-        <h3 :key="show" v-if="!show">后台登录系统</h3>
-        <el-form ref="loginForm" autoComplete="on" :model="loginForm" :RULES="loginRules" label-width="0" class="login-form" :key="show" v-if="show">
-          <h3>后台登录系统</h3>
-          <el-form-item prop="pickName">
-            <el-input prefix-icon="iconfont icon-icon_zhanghao" type="text" placeholder="username" name="pickName"
-              autocomplete="on" v-model="loginForm.pickName">
-            </el-input>
-          </el-form-item>
+  <el-main style="overflow: hidden;">
+    <transition-group enter-active-class="animated bounceInDown" leave-active-class="animated rollOut">
+      <el-form ref="loginForm" autoComplete="on" :model="loginForm" :RULES="loginRules" label-width="0" class="login-form"
+        :key="show" v-if="show">
+        <h3>后台登录系统</h3>
+        <el-form-item prop="pickName">
+          <el-input prefix-icon="iconfont icon-icon_zhanghao" type="text" placeholder="username" name="pickName"
+            autocomplete="on" v-model="loginForm.pickName">
+          </el-input>
+        </el-form-item>
 
-          <el-form-item prop="userPwd">
-            <el-input prefix-icon="iconfont icon-chucun" type="password" placeholder="namePwd" name="namePwd" @keyup.enter.native="loginHandler" v-model="loginForm.userPwd" autocomplete="on">
-            </el-input>
-          </el-form-item>
+        <el-form-item prop="userPwd">
+          <el-input prefix-icon="iconfont icon-chucun" type="password" placeholder="namePwd" name="namePwd"
+            @keyup.enter.native="loginHandler" v-model="loginForm.userPwd" autocomplete="on">
+          </el-input>
+        </el-form-item>
 
-          <el-form-item>
-            <el-button type="danger" class="submitBtn" round @click.native.prevent="loginHandler" :loading="loading">
-              登录
-            </el-button>
-            <el-button type="primary" class="resetBtn" round @click="resetEvent">
-              重置
-            </el-button>
-            <hr>
-            <p>还没有账号，马上去<span class="to">注册</span></p>
-          </el-form-item>
-        </el-form>
-      </transition-group>
+        <el-form-item>
+          <el-button type="danger" class="submitBtn" round @click.native.prevent="loginHandler" :loading="loading">
+            登录
+          </el-button>
+          <el-button type="primary" class="resetBtn" round @click="resetEvent">
+            重置
+          </el-button>
+          <hr>
+          <p>还没有账号，马上去<span class="to" @click="toRegist">注册</span></p>
+        </el-form-item>
+      </el-form>
+      <h3 :key="show" v-if="!show">后台登录系统</h3>
+    </transition-group>
   </el-main>
 </template>
 
 <script>
-import { isvalidateUserName } from '@/utils/validate'
+  import {
+    isvalidateUserName
+  } from '@/utils/validate'
   export default {
     data() {
       const validatePickName = (rule, value, callback) => {
-          if( !isvalidateUserName(value)){
-            callback(new Error('用户名最多10位'))
-          }else{
-            callback()
-          }
+        if (!isvalidateUserName(value)) {
+          callback(new Error('用户名最多10位'))
+        } else {
+          callback()
         }
-        const validatePass = (rule, value, callback) => {
-          if(value.length < 5){
-            callback(new Error('密码不能小于5位'))
-          } else {
-            callback()
-          }
+      }
+      const validatePass = (rule, value, callback) => {
+        if (value.length < 5) {
+          callback(new Error('密码不能小于5位'))
+        } else {
+          callback()
         }
+      }
       return {
         show: false,
         loginForm: {
-          pickName: 'admin',
-          userPwd: 'admin'
+          pickName: '',
+          userPwd: ''
         },
         loginRules: {
-          pickName: [{ required: true, trigger: 'blur', validator: validatePickName}],
-          userPwd: [{ required: true, trigger: 'blur', validator: validatePass}]
+          pickName: [{
+            required: true,
+            trigger: 'blur',
+            validator: validatePickName
+          }],
+          userPwd: [{
+            required: true,
+            trigger: 'blur',
+            validator: validatePass
+          }]
         },
         loading: false
       };
@@ -65,25 +77,29 @@ import { isvalidateUserName } from '@/utils/validate'
       this.show = true
     },
     methods: {
-      resetEvent(){
-         this.$refs['loginForm'].resetFields();
+      resetEvent() {
+        this.$refs['loginForm'].resetFields();
       },
-      loginHandler(){
+      loginHandler() {
         this.$refs.loginForm.validate(valid => {
-          if(valid){
+          if (valid) {
             this.loading = true
-            this.$store.dispatch('Login',this.loginForm).then(() => {
+            this.$store.dispatch('Login', this.loginForm).then(() => {
+              debugger
               this.loading = false
               this.$router.push({
                 path: '/'
               })
-            }).catch(() =>{
+            }).catch(() => {
               this.loading = false
             })
-          }else{
+          } else {
             return false
           }
         })
+      },
+      toRegist() {
+        this.$router.push('/regist')
       }
     }
   };
@@ -106,10 +122,5 @@ import { isvalidateUserName } from '@/utils/validate'
   .to {
     color: #67c23a;
     cursor: pointer;
-  }
-
-  #canvascontainer {
-    position: absolute;
-    top: 0px;
   }
 </style>

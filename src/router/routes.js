@@ -1,4 +1,5 @@
 import login from "@/views/login/index";
+import regist from "@/views/regist/index";
 import NotFound from "@/views/404page/404";
 // Routes
 const routes = [
@@ -10,6 +11,7 @@ const routes = [
   // },
   { path: '/login', component: login, name: 'login' },
   { path: '/', redirect: { name: 'login'}},
+  { path: '/regist', component: regist, name: 'regist'},
   {
     path: '', component: app, children: [
       { path: '/', redirect: { name: login}}

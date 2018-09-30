@@ -3,7 +3,7 @@ import NProgress from 'nprogress' //progress进度条
 import 'nprogress/nprogress.css' //进度条样式
 import { getToken } from '@/utils/auth' //验权
 
-const whiteList = ['/auth', '/404', '/login']  //不重定向白名单
+const whiteList = ['/auth', '/404', '/login', '/regist']  //不重定向白名单
 router.beforeEach((to,from,next) => {
   NProgress.start()
   
