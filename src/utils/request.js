@@ -50,19 +50,26 @@ service.interceptors.response.use(response => {
             location.reload()//为了重新实例化vue-router对象，避免bug
           })
         })
+      }else if(response.data && response.data.code === 400){
+        Message({
+          message: res.data,
+          type: 'error',
+          duration: 5 * 1000
+        })
+      }else{
+        Message({
+          message: res.message,
+          type: 'error',
+          duration: 5 * 1000
+        })
       }
-      Message({
-        message: res.message,
-        type: 'error',
-        duration: 5 * 1000
-      })
       return Promise.reject('error')
     }else{
       if(res.success === true){
         return res
       }else{
         Message({
-          message: res.message,
+          message: res.data,
           type: 'error',
           duration: 5 * 1000
         })

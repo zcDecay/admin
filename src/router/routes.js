@@ -14,16 +14,16 @@ const routes = [
   { path: '/regist', component: regist, name: 'regist'},
   {
     path: '', component: app, children: [
-      { path: '/', redirect: { name: login}}
-      // {path: '/index', component: dashboard},
-      // {path: '/sys/menuList', component: menuList},
-      // {path: '/sys/roleList', component: role},
-      // {path: '/sys/userList', component: sysUser},
-      // {path: '/sys/userAdd', component: userAdd},
-      // {path: '/sys/resource', component: resource}
-    ]
+    // {path: '/resetPwd', component: resetPwd},
+    {path: '/index', component: dashboard},
+    // {path: '/sys/menuList', component: menuList},
+    // {path: '/sys/roleList', component: role},
+    // {path: '/sys/userList', component: sysUser},
+    // {path: '/sys/userAdd', component: userAdd},
+    // {path: '/sys/resource', component: resource}
+  ]
   },
-  // { path: '*', component: NotFound}
+  { path: '*', component: NotFound}
 ]
 
 

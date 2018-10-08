@@ -1,42 +1,43 @@
 <template>
-  <el-main>
+  <el-main style="overflow: hidden;">
     <transition-group enter-active-class="animated bounceInDown" leave-active-class="animated rollOut">
-      <el-form :model="ReginForm" ref="ReginForm" :rules="rule" class="regform" label-width="0" :key="show" v-if="show">
+      <el-form :model="registForm" ref="registForm" :rules="registRules" class="regform" label-width="0" :key="show"
+        v-if="show">
 
         <h3>用户注册</h3>
 
-        <el-form-item prop="username">
-          <el-input type="text" v-model="ReginForm.username" placeholder="用户名">
+        <el-form-item prop="pickName">
+          <el-input type="text" v-model="registForm.pickName" placeholder="用户名">
           </el-input>
         </el-form-item>
 
-        <el-form-item prop="password">
-          <el-input type="password" v-model="ReginForm.password" placeholder="密码">
+        <el-form-item prop="userPwd">
+          <el-input type="password" v-model="registForm.userPwd" placeholder="密码">
           </el-input>
         </el-form-item>
 
         <el-form-item prop="confirmpassword">
-          <el-input type="password" v-model="ReginForm.confirmpassword" placeholder="确认密码">
+          <el-input type="password" v-model="registForm.confirmpassword" placeholder="确认密码">
           </el-input>
         </el-form-item>
 
         <el-form-item prop="email">
-          <el-input type="email" v-model="ReginForm.email" placeholder="电子邮件">
+          <el-input type="email" v-model="registForm.email" placeholder="电子邮件">
           </el-input>
         </el-form-item>
 
-        <el-form-item prop="tel">
-          <el-input type="text" v-model.number="ReginForm.tel" placeholder="电话号码">
+        <el-form-item prop="userPhone">
+          <el-input type="text" v-model.number="registForm.userPhone" placeholder="电话号码">
           </el-input>
         </el-form-item>
 
-        <el-form-item prop="name">
-          <el-input type="text" v-model="ReginForm.name" placeholder="昵称">
+        <!-- <el-form-item prop="name">
+          <el-input type="text" v-model="registForm.name" placeholder="昵称">
           </el-input>
-        </el-form-item>
+        </el-form-item> -->
 
         <el-form-item>
-          <el-button type="success" class="submitBtn" round @click.native.prevent="submit" :loading="logining">
+          <el-button type="success" class="submitBtn" round @click.native.prevent="registHandler" :loading="loading">
             注册
           </el-button>
           <el-button type="primary" class="resetBtn" round @click.native.prevent="reset">
@@ -56,7 +57,7 @@
       let confirmpasswordCheck = (rule, value, callback) => {
         if (value === '') {
           return callback(new Error('密码是必须的'))
-        } else if (value !== this.ReginForm.password) {
+        } else if (value !== this.registForm.userPwd) {
           return callback(new Error('两次输入的密码不一致'))
         } else {
           return callback()
@@ -74,26 +75,26 @@
         }
       }
       return {
-        ReginForm: {
-          username: '',
-          password: '',
+        registForm: {
+          pickName: '',
+          userPwd: '',
           confirmpassword: '',
-          tel: '',
-          email: '',
-          name: ''
+          userPhone: '',
+          email: ''
         },
-        logining: false,
-        rule: {
-          username: [{
+        registRules: {
+          pickName: [{
             required: true,
-            max: 14,
-            min: 7,
-            message: '用户名是必须的，长度为7-14位',
+            max: 9,
+            min: 4,
+            message: '用户名是必须的，长度为4-9位',
             trigger: 'blur'
           }],
-          password: [{
+          userPwd: [{
             required: true,
-            message: '密码是必须的！',
+            min: 6,
+            max: 6,
+            message: '密码是必须的！长度为6位',
             trigger: 'blur'
           }],
           confirmpassword: [{
@@ -101,7 +102,7 @@
             validator: confirmpasswordCheck,
             trigger: 'blur'
           }],
-          tel: [{
+          userPhone: [{
             required: true,
             validator: telCheck,
             trigger: 'blur'
@@ -112,16 +113,18 @@
             message: '请输入正确的电子邮件格式(xxx@xxx.com)',
             trigger: 'blur'
           }],
-          name: [{
-            required: true,
-            max: 12,
-            min: 2,
-            message: '昵称是必须的，最好是汉字',
-            trigger: 'blur'
-          }]
+          // name: [{
+          //   required: true,
+          //   max: 12,
+          //   min: 2,
+          //   message: '昵称是必须的，最好是汉字',
+          //   trigger: 'blur'
+          // }]
         },
         loading: false,
-        show: false
+        show: false,
+        showTime: 500,
+        showEvent: null
       }
     },
     mounted() {
@@ -129,21 +132,42 @@
     },
     methods: {
       // ...
-      submit() {
-        this.$refs.ReginForm.validate(valid => {
+      reset() {
+        this.$refs.registForm.resetFields()
+      },
+      registHandler() {
+        this.$refs.registForm.validate(valid => {
           if (valid) {
-            this.logining = true
-            console.log('开始写入后台数据！')
+            this.loading = true
+            this.$store.dispatch('Regist', this.registForm).then(res => {
+              this.loading = false
+                this.$message({
+                  showClose: true,
+                  message: res.message,
+                  type: 'success'
+                });
+                this.$router.push({
+                  path: '/login'
+                })
+            }).catch(() => {
+              this.loading = false
+
+            })
           } else {
             console.log('submit err')
           }
         })
       },
-      reset() {
-        this.$refs.ReginForm.resetFields()
-      },
       tologin() {
-        this.$router.push('/login')
+        let router = this.$router;
+        this.toShow()
+        clearTimeout(this.showEvent)
+        this.showEvent = setTimeout(function () {
+          router.push('/login')
+        }, this.showTime)
+      },
+      toShow() {
+        this.show = false
       }
     }
   }

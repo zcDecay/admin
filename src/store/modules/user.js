@@ -1,7 +1,7 @@
 import { stat } from "fs";
 import { resolve } from "path";
 import store from '@/store'
-import {login} from '@/api/login'
+import {login, regist} from '@/api/login'
 import { getToken, removeToken, setToken } from "@/utils/auth";
 
 
@@ -55,7 +55,7 @@ const user = {
       return new Promise((resolve, reject) => {
         login(pickName,userPwd).then(response => {
           const data = response.data
-          setToken(data.token)
+          setToken(data)
           commit('SET_TOKEN', data.token)
           resolve()
         }).catch(error => {
@@ -69,6 +69,18 @@ const user = {
         commit('SET_TOKEN','')
         removeToken()
         resolve()
+      })
+    },
+    //注册
+    Regist({commit},user){
+      user.pickName = user.pickName.trim()
+
+      return new Promise((resolve, reject) => {
+        regist(user).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
       })
     },
 

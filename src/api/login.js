@@ -12,6 +12,13 @@ export function login(pickName,userPwd){
   })
 }
 
+export function regist(user){
+  return request({
+    url: '/regist/save',
+    method: 'post',
+    data: user
+  })
+}
 export function getUser(token){
   return request({
     url: '/user/info',

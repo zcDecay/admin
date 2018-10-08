@@ -1,7 +1,7 @@
 <template>
   <el-main style="overflow: hidden;">
     <transition-group enter-active-class="animated bounceInDown" leave-active-class="animated rollOut">
-      <el-form ref="loginForm" autoComplete="on" :model="loginForm" :RULES="loginRules" label-width="0" class="login-form"
+      <el-form ref="loginForm" autoComplete="on" :model="loginForm" :rules="loginRules" label-width="0" class="login-form"
         :key="show" v-if="show">
         <h3>后台登录系统</h3>
         <el-form-item prop="pickName">
@@ -27,7 +27,7 @@
           <p>还没有账号，马上去<span class="to" @click="toRegist">注册</span></p>
         </el-form-item>
       </el-form>
-      <h3 :key="show" v-if="!show">后台登录系统</h3>
+      <!-- <h3 :key="show" v-if="!show">后台登录系统</h3> -->
     </transition-group>
   </el-main>
 </template>
@@ -39,6 +39,9 @@
   export default {
     data() {
       const validatePickName = (rule, value, callback) => {
+        if (value.length <= 0) {
+          callback(new Error('用户名不能为空'))
+        }
         if (!isvalidateUserName(value)) {
           callback(new Error('用户名最多10位'))
         } else {
@@ -46,8 +49,8 @@
         }
       }
       const validatePass = (rule, value, callback) => {
-        if (value.length < 5) {
-          callback(new Error('密码不能小于5位'))
+        if (value.length < 6) {
+          callback(new Error('密码不能小于6位'))
         } else {
           callback()
         }
@@ -70,7 +73,9 @@
             validator: validatePass
           }]
         },
-        loading: false
+        loading: false,
+        showTime: 500,
+        showEvent: null
       };
     },
     mounted() {
@@ -84,9 +89,13 @@
         this.$refs.loginForm.validate(valid => {
           if (valid) {
             this.loading = true
-            this.$store.dispatch('Login', this.loginForm).then(() => {
-              debugger
+            this.$store.dispatch('Login', this.loginForm).then(res => {
               this.loading = false
+              this.$message({
+                showClose: true,
+                message: res.message,
+                type: 'success'
+              });
               this.$router.push({
                 path: '/'
               })
@@ -99,7 +108,15 @@
         })
       },
       toRegist() {
-        this.$router.push('/regist')
+        let router = this.$router;
+        this.toShow()
+        clearTimeout(this.showEvent)
+        this.showEvent = setTimeout(function () {
+          router.push('/regist')
+        }, this.showTime)
+      },
+      toShow() {
+        this.show = false
       }
     }
   };
