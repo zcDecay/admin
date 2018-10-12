@@ -1,23 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import routeConfig from "./routes";
-import HelloWorld from '@/components/HelloWorld'
+import routeMap from "./routes";
+import store from "@/store"
 
 Vue.use(Router)
 
-// export default new Router({
-//   routes: [
-//     {
-//       path: '/',
-//       name: 'HelloWorld',
-//       component: HelloWorld
-//     }
-//   ]
-// })
-
- const routes = new Router({
+export default new Router({
   // scrollBehavior: () => ({ y: 0 }),
-  routes: routeConfig
+  routes: store.state.permission.routers
 });
-
-export default routes

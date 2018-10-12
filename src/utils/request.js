@@ -1,3 +1,5 @@
+import Vue from 'vue'
+import Vuex from 'vuex'
 import axios from 'axios'
 import store from '@/store'
 import qs from 'qs'
@@ -18,9 +20,8 @@ const service = axios.create({
 //request拦截
 service.interceptors.request.use(config => {
   if(store.getters.token){
-      config.headers['Admin-Token'] = getToken() //让每个请求携带自定义Token，根据实际情况自行修改
+      config.headers['Newt-Token'] = getToken() //让每个请求携带自定义Token，根据实际情况自行修改
   }
-
   config.transformRequest = [
     function(data) {
       if(config.headers['Content-Type'] === 'application/x-www-form-urlencoded; charset=UTF-8'){

@@ -58,8 +58,8 @@
       return {
         show: false,
         loginForm: {
-          pickName: '',
-          userPwd: ''
+          pickName: 'newt',
+          userPwd: '000000'
         },
         loginRules: {
           pickName: [{

@@ -141,14 +141,14 @@
             this.loading = true
             this.$store.dispatch('Regist', this.registForm).then(res => {
               this.loading = false
-                this.$message({
-                  showClose: true,
-                  message: res.message,
-                  type: 'success'
-                });
-                this.$router.push({
-                  path: '/login'
-                })
+              this.$message({
+                showClose: true,
+                message: res.message,
+                type: 'success'
+              });
+              this.$router.push({
+                path: '/login'
+              })
             }).catch(() => {
               this.loading = false
 
