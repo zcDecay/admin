@@ -62,7 +62,7 @@
           </div>
         </el-dropdown-menu>
       </el-dropdown>
-      <el-tooltip effect="dark" content="全屏" class="right-menu-item" style="vertical-align:middle;margin-top:-3px"
+      <el-tooltip effect="light" content="全屏" class="right-menu-item" style="vertical-align:middle;margin-top:-3px"
         placement="bottom">
         <screenfull class="screenfull right-menu-item"></screenfull>
       </el-tooltip>

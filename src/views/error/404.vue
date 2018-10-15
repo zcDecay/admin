@@ -1,12 +1,6 @@
 <template>
   <div translate="no" class="body">
 
-
-
-
-
-
-
     <div class="content">
       <canvas class="snow" id="snow" width="1349" height="400"></canvas>
       <div class="main-text">
@@ -20,9 +14,6 @@
         </div>
       </div>
     </div>
-
-
-
   </div>
 </template>
 

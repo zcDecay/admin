@@ -14,8 +14,8 @@ import './assets/icon/iconfont.css'
 import '@/permission'
 import * as utils from '@/utils'
 //引用动画js
-import  Velocity from 'velocity-animate'
-import  'vue2-animate/dist/vue2-animate.min.css'
+import Velocity from 'velocity-animate'
+import 'vue2-animate/dist/vue2-animate.min.css'
 import 'animate.css'
 
 Vue.config.productionTip = false

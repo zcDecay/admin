@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import router from './router'
 import store from './store'
-import NProgress from 'nprogress' //progress进度条
-import 'nprogress/nprogress.css' //进度条样式
+import NProgress from 'nprogress'       //progress进度条
+import 'nprogress/nprogress.css'        //进度条样式
 
 import { getToken } from '@/utils/auth' //验权
 import { Message } from 'element-ui'
@@ -25,7 +25,6 @@ router.beforeEach((to, from, next) => {
             Message.error('当前登录用户没有任何角色')
             return
           }
-
           store.dispatch("GetUserMenus").then(res => {
             if (!store.getters.menus || store.getters.menus.length === 0) {
               Message.error('当前登录用户没有分配任何菜单')
@@ -46,6 +45,7 @@ router.beforeEach((to, from, next) => {
                 ...to,
                 replace: true
               })//hack方法，确保addRouters已完成
+              next()
             }).catch((resp) => {
               console.log(resp)
               Message.error('系统异常！请联系管理员')
@@ -61,8 +61,6 @@ router.beforeEach((to, from, next) => {
           })
         })
       } else {
-        // Message.error('当前用户没有此功能的权限！请联系管理员')
-        // NProgress.done()
         next()
       }
     }

@@ -6,7 +6,7 @@ import routerComponent from '@/router/routerComponent'
 const permission = {
   state: {
     menus: [],
-    routers: routeMap,
+    routers: [],
     addRouters: []
   },
   mutations: {
@@ -15,7 +15,7 @@ const permission = {
     },
     SET_ROUTERS: (state, routers) => {
       state.addRouters = routers
-      state.routers = routeMap.concat(routers)
+      state.routers = state.routers.concat(routers)
     }
   },
   actions: {

@@ -190,11 +190,17 @@
   }
 </script>
 
-<style scoped>
+<style rel="stylesheet/scss" lang="scss" scoped>
 
   #gotobedbar {
     width: 100%;
     min-height: 500px;
     margin-right: 15px;
+  }
+    #gotobedbar  div {
+      width: 100%!important
+    }
+  .dashboard{
+    width: 100%
   }
 </style>
