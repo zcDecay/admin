@@ -1,6 +1,6 @@
 <template>
   <el-main style="overflow: hidden;">
-    <transition-group enter-active-class="animated bounceInDown" leave-active-class="animated rollOut">
+    <transition-group enter-active-class="animated bounceInDown" leave-active-class=" animated hinge">
       <el-form ref="loginForm" autoComplete="on" :model="loginForm" :rules="loginRules" label-width="0" class="login-form"
         :key="show" v-if="show">
         <h3>后台登录系统</h3>

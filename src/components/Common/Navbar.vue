@@ -1,14 +1,14 @@
 <template>
   <el-menu class="navbar" mode="horizontal">
     <a href="#" class="logo">
-      <span class=""><b><i class="iconfont icon-rentijiance">&nbsp;</i>Vue-Admin</b></span>
+      <span class=""><b><i class="iconfont icon-rentijiance">&nbsp;</i>张超超的小后台管理</b></span>
     </a>
     <hamburger class="hamburger-container" :toggleclick="toggleSideBar"></hamburger>
     <breadcrumb class="breadcrumb-container"></breadcrumb>
     <div class="right-menu">
 
       <el-dropdown class="right-menu-item" trigger="click">
-        <el-badge value="hot">
+        <el-badge value="1">
           <div class="el-dropdown-link padding-common">
             <b><i class="iconfont icon-xiaoxi"></i></b>
           </div>
@@ -42,22 +42,29 @@
           <b>{{name}}</b>
         </div>
         <el-dropdown-menu slot="dropdown">
-          <div>
+          <div >
             <div class="header-pic" :to="{ path: '/resetPwd' }">
-              <el-tooltip class="item" effect="light" content="点击修改信息" placement="top-end">
+              <!-- <el-tooltip class="item" effect="light" content="点击修改信息" placement="top-end">
                 <img :src='avatar' class="img-circle" alt="User Image" @click="updateMsgHandler">
+              </el-tooltip> -->
+              <el-tooltip class="item" effect="light" content="点击修改信息" placement="top-end" >
+                <pan-thumb :image="avatar">
+                  {{signature}}
+                </pan-thumb>
               </el-tooltip>
-              <b>
-                <p>{{name}}</p>
-              </b>
+              <!-- <el-tooltip class="item" effect="light" content="signature" placement="bottom-end">
+                <b>
+                  <p>{{name}}</p>
+                </b>
+              </el-tooltip> -->
             </div>
             <div class="pull-left">
               <router-link :to="{ path: '/resetPwd' }">
-                <el-button>修改密码</el-button>
+                <el-button round>修改密码</el-button>
               </router-link>
             </div>
             <div class="pull-right">
-              <el-button>退出</el-button>
+              <el-button round @click="logout">退出</el-button>
             </div>
           </div>
         </el-dropdown-menu>
@@ -80,14 +87,19 @@
   /* 全屏 */
   import Screenfull from "@/components/Screenfull";
 
+  import PanThumb from '@/components/PanThumb'
+
   export default {
     components: {
       Breadcrumb,
       Hamburger,
-      Screenfull
+      Screenfull,
+      PanThumb
     },
     data() {
-      return {};
+      return {
+        show: false
+      };
     },
     computed: {
       ...mapGetters(["avatar", "sidebar", "name", "signature"])
@@ -98,6 +110,11 @@
       },
       updateMsgHandler() {
 
+      },
+      logout() {
+        this.$store.dispatch('FedLogOut').then(() => {
+          location.reload()
+        })
       }
     }
   };
@@ -230,5 +247,9 @@
     font-size: inherit;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
+  }
+
+  .img-circle:hover {
+    transform: 90deg
   }
 </style>

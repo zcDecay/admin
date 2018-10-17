@@ -2,15 +2,15 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
-import store from './store'
-import login from '@/api/login'
+import router from '@/router'
+import store from '@/store'
+import * as UTILS_API from '@/api/utils'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 // import '@/icons'
-import './assets/icon/iconfont.css'
+import '@/assets/icon/iconfont.css'
 import '@/permission'
 import * as utils from '@/utils'
 //引用动画js

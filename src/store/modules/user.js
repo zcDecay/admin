@@ -17,7 +17,8 @@ const user = {
     avatar: '',
     favicon: '',
     email: '',
-    roleId: ''
+    roleId: '',
+    userAll: []
   },
   mutations: {
     SET_USER: (state, user) => {
@@ -49,6 +50,9 @@ const user = {
     },
     SET_ROLEID: (state, roleId) => {
       state.roleId = roleId
+    },
+    SET_USER_ALL: (state, userAll) => {
+      state.userAll = userAll
     }
   },
   actions: {
@@ -96,7 +100,7 @@ const user = {
       });
     },
 
-    // 前端 登出
+    // 登出
     FedLogOut({ commit }) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '');
@@ -113,7 +117,6 @@ const user = {
               reject('获取用户信息失败，请稍后重试！')
               return
             }
-            
             const user = res.data
             commit('SET_USER', user)
             commit('SET_ONLYID', user.id)
@@ -124,7 +127,7 @@ const user = {
             commit('SET_AVATAR', user.userIcon)
             commit('SET_FAVICON', user.favicon)
             commit('SET_ROLEID', user.roleId)
-
+            commit('SET_USER_ALL',res.attachData)
             resolve(res)
           }).catch(error => {
             reject(error)

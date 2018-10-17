@@ -47,7 +47,7 @@ service.interceptors.response.use(response => {
         MessageBox.alert('长时间未登录，将跳转至登录页面','提示',{
           type: 'warning'
         }).then(() => {
-          store.dispatch('LogOut').then(() => {
+          store.dispatch('FedLogOut').then(() => {
             location.reload()//为了重新实例化vue-router对象，避免bug
           })
         })

@@ -1,24 +1,19 @@
-import login from "@/views/login/index";
-import regist from "@/views/regist/index";
-import NotFound from "@/views/error/404";
-import app from "../App.vue";
-import dashboard from "../views/dashboard/index";
 
-const _import = require('./_import_' + process.env.NODE_ENV)
+import routerComponent from './routerComponent'
 // Routes
 const routes = [
-  {
-    path: '/index',
-    component: _import('/dashboard/index'),
-  },
   {
     path: '/',
     redirect: "/index",
   },
   {
+    path: '/index',
+    component: routerComponent('/dashboard/index'),
+    name: "仪表盘"
+  },
+  {
     path: '/login',
-    component: _import('/login/index'),
-    hidden: true,
+    component: routerComponent('/login/index'),
     name: 'login',
     meta: {
       keepAlive: true
@@ -26,21 +21,25 @@ const routes = [
   },
   {
     path: '/regist',
-    component: _import('/regist/index'),
-    hidden: true,
+    component: routerComponent('/regist/index'),
     meta: {
       keepAlive: true
     }
   },
   {
     path: '404',
-    component: _import('/error/404'),
-    hidden: true,
+    component: routerComponent('/error/404'),
     meta: {
       keepAlive: true
     }
   },
-  { path: '*', component: NotFound }
+  {
+    path: '401',
+    component: routerComponent('/error/404'),
+    meta: {
+      keepAlive: true
+    }
+  }
 ]
 
 export default routes

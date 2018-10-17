@@ -10,6 +10,7 @@ const getters = {
   favicon: state => state.user.favicon,
   email: state => state.user.email,
   roleId: state => state.user.roleId,
+  userAll: state => state.user.userAll,
 
   addRouters: state => state.permission.addRouters,
   menus: state => state.permission.menus
