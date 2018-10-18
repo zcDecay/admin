@@ -18,6 +18,9 @@ import Velocity from 'velocity-animate'
 import 'vue2-animate/dist/vue2-animate.min.css'
 import 'animate.css'
 
+import AppTable from '@/components/Table/index.js'
+Vue.use(AppTable)
+
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 

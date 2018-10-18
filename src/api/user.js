@@ -28,10 +28,11 @@ export function queryLevel() {
   })
 }
 
-export function updateState(id, state) {
+export function updateState(id, state, cause) {
   const data = {
     id,
-    state
+    state,
+    cause
   }
   return request({
     url: '/user/updateState',
@@ -41,9 +42,21 @@ export function updateState(id, state) {
 }
 
 
-export function getUsers() {
+export function queryUsers(queryData) {
   return request({
-    url: '/user/getUsers',
-    method: 'get'
+    url: '/user/queryUsers',
+    method: 'post',
+    data: queryData
+  })
+}
+
+
+export function deleteUser(id) {
+  return request({
+    url: '/user/deleteUser',
+    method: 'post',
+    data: {
+      id: id
+    }
   })
 }
