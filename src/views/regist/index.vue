@@ -5,7 +5,6 @@
         v-if="show">
 
         <h3>用户注册</h3>
-
         <el-form-item prop="pickName">
           <el-input type="text" v-model="registForm.pickName" placeholder="用户名">
           </el-input>
@@ -27,7 +26,7 @@
         </el-form-item>
 
         <el-form-item prop="userPhone">
-          <el-input type="text" v-model.number="registForm.userPhone" placeholder="电话号码">
+          <el-input type="text" v-model.number="registForm.userPhone" placeholder="联系电话">
           </el-input>
         </el-form-item>
 

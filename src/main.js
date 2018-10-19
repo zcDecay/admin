@@ -4,7 +4,6 @@ import Vue from 'vue'
 import App from './App'
 import router from '@/router'
 import store from '@/store'
-import * as UTILS_API from '@/api/utils'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -17,6 +16,7 @@ import * as utils from '@/utils'
 import Velocity from 'velocity-animate'
 import 'vue2-animate/dist/vue2-animate.min.css'
 import 'animate.css'
+
 
 import AppTable from '@/components/Table/index.js'
 Vue.use(AppTable)
