@@ -19,6 +19,7 @@ export function regist(user){
     data: user
   })
 }
+
 export function getUser(token){
   return request({
     url: '/user/info',

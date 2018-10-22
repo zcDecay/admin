@@ -54,6 +54,9 @@
         </el-table-column>
         <el-table-column align="center" style="width:20%" label="操作">
           <template slot-scope="scope">
+            <el-button type="primary" size="mini" round @click="editHandler(scope.row)">
+              编辑
+            </el-button>
             <el-button :type="scope.row.state | noStatusFilter(statusMap,scope.row.state)" size="mini" round @click="stateHandler(scope.row)">
               <span v-if="scope.row.state === 0">
                 解封
@@ -67,7 +70,7 @@
         </el-table-column>
       </el-table>
     </app-table>
-    <CreateUserDialog :show.sync="createUserVisible" :level-list="roleJson"></CreateUserDialog>
+    <CreateUserDialog :show.sync="createUserVisible" :level-list="roleJson" :data-list.sync="dataList" :son-title="sonTitle"></CreateUserDialog>
   </div>
 </template>
 <script>
@@ -86,10 +89,12 @@
         pageData: Object.create(null),
         roleJson: [],
         roleList: [],
+        dataList: Object.create(null),
         loading: false,
         createUserVisible: false,
         searchLoading: false,
         downloadLoading: false,
+        sonTitle: '',
         statusMap: {
           0: 'success',
           1: 'danger'
@@ -122,7 +127,7 @@
         return statusMap[status]
       },
       roleFilter(roleId, roleList) {
-        if (roleList.length > 0) {
+        if (roleList.length > 0 && roleId != 0) {
           return roleList[roleId - 1].label
         }
       }
@@ -137,6 +142,8 @@
     mounted() {},
     methods: {
       fetchData: function () {
+        this.createUserVisible = false
+
         this.searchLoading = true
         const params = Object.assign({}, this.queryFilter, this.$refs.appTable.page)
 
@@ -183,14 +190,15 @@
             });
             this.fetchData()
           })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });
-        });
+        }).catch(() => {});
       },
       createHandler() {
+        this.sonTitle = 'Create'
+        this.createUserVisible = true
+      },
+      editHandler(row){
+        this.dataList = row
+        this.sonTitle = 'Edit'
         this.createUserVisible = true
       },
       downloadHandler() {

@@ -50,7 +50,6 @@ export function queryUsers(queryData) {
   })
 }
 
-
 export function deleteUser(id) {
   return request({
     url: '/user/deleteUser',
@@ -58,5 +57,13 @@ export function deleteUser(id) {
     data: {
       id: id
     }
+  })
+}
+
+export function updateUser(updateData) {
+  return request({
+    url: '/user/updateUser/admin',
+    method: 'post',
+    data: updateData
   })
 }
