@@ -1,15 +1,20 @@
 
 import routerComponent from './routerComponent'
+import Layout from '@/views/layout/index'
 // Routes
 const routes = [
   {
     path: '/',
-    redirect: "/index",
-  },
-  {
-    path: '/index',
-    component: routerComponent('/dashboard/index'),
-    name: "仪表盘"
+    component: Layout,
+    redirect: "/dashboard",
+    name: '首页',
+    children: [
+      {
+        name: '代办事宜',
+        path: '/dashboard',
+        component: routerComponent('/dashboard/index'),
+      }
+    ]
   },
   {
     path: '/login',

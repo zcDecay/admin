@@ -1,9 +1,9 @@
 <template>
-    <el-upload class="image-uploader" :action="uploadAction" :show-file-list="false" :on-success="uploadSuccessHandler"
-      :before-upload="beforeUploadHandler" :loading="uploadLoading">
-      <img v-if="image" :src="image" class="image">
-      <i v-else class="el-icon-plus image-uploader-icon"></i>
-    </el-upload>
+  <el-upload class="image-uploader" :action="uploadAction" :show-file-list="false" :on-success="uploadSuccessHandler"
+    :before-upload="beforeUploadHandler" :loading="uploadLoading" :data="fileUrl">
+    <img v-if="image" :src="image" class="image">
+    <i v-else class="el-icon-plus image-uploader-icon"></i>
+  </el-upload>
 </template>
 <script>
   export default {
@@ -12,7 +12,8 @@
       return {
         uploadLoading: false,
         image: this.userIcon,
-        uploadAction: process.env.BASE_URL + '/file/upload',
+        fileUrl: Object.create(null),
+        uploadAction: process.env.BASE_URL + '/file/upload/update',
         flagMap: {
           'userIcon': true,
           'favicon': false
@@ -20,7 +21,7 @@
       }
     },
     props: {
-      imageUrl: {
+      userIcon: {
         type: String,
         default: ''
       },
@@ -36,20 +37,26 @@
 
     },
     mounted() {
-      this.image = this.imageUrl
+      this.image = this.userIcon
+      this.fileUrl = {
+        "fileUrl": this.image
+      }
     },
     methods: {
       flagFilter(flag, flagMap) {
         return flagMap[flag]
       },
       uploadSuccessHandler(res, file) {
-        this.reverseLoading()
+        this.uploadLoading = true
         this.image = res.data
+        this.fileUrl = {
+          "fileUrl": this.image
+        }
         this.$message.success('上传成功');
-        this.$emit('update:imageUrl', res.data)
+        this.updateIcon()
       },
       beforeUploadHandler(file) {
-        this.reverseLoading()
+        this.uploadLoading = true
         let isType = '';
         let errorLog = '';
         let isFlag = this.flagFilter(this.flag, this.flagMap)
@@ -80,8 +87,8 @@
         }
         return isType && isLt2M;
       },
-      reverseLoading() {
-        return !this.uploadLoading
+      updateIcon() {
+        this.$emit('updateIcon', this.image)
       }
     }
   }

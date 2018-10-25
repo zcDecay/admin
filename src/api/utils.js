@@ -82,3 +82,17 @@ export function _strMapToObj(strMap){
   return obj;
 }
 
+/* 递归循环，对组件进行赋值 */
+export function circleRouterFilter(router, routerComponent){
+  router.forEach(element => {
+      if(element.children.length > 0){
+        circleRouterFilter(element.children, routerComponent)
+      }
+
+          element.component = routerComponent(element.component)
+        
+      
+      
+  });
+  return router
+}

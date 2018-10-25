@@ -37,7 +37,6 @@ router.beforeEach((to, from, next) => {
               // router.options.routes.forEach(element => {
               //   if(element.path === '/'){
               //     element.children = res.data.concat(element.children)
-
               //   }
               // });
               router.addRoutes(res.data)//动态新增可访问路由表

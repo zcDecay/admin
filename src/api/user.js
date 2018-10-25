@@ -7,13 +7,6 @@ export function getUserInfo(token) {
   })
 }
 
-export function queryMenus() {
-  return request({
-    url: '/user/queryMenus',
-    method: 'get'
-  })
-}
-
 export function queryRouter() {
   return request({
     url: '/user/queryRouter',

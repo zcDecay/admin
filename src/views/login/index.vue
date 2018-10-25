@@ -91,19 +91,11 @@
             this.loading = true
             this.$store.dispatch('Login', this.loginForm).then(res => {
               this.loading = false
-              this.$message({
-                showClose: true,
-                message: res.message,
-                type: 'success'
-              });
+              this.$message.success(res.message)
               this.$router.push({
                 path: '/'
               })
-            }).catch(() => {
-              this.loading = false
             })
-          } else {
-            return false
           }
         })
       },

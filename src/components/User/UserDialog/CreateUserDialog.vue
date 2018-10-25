@@ -6,18 +6,6 @@
           <el-input type="text" v-model="dataForm.pickName" placeholder="用户名">
           </el-input>
         </el-form-item>
-        <!-- <span v-if="sonTitle | titleFilter(sonTitle, titleMap)">
-          <el-form-item label="密码" prop="userPwd">
-            <el-input type="password" v-model="dataForm.userPwd" placeholder="密码"></el-input>
-          </el-form-item>
-          <el-form-item label="确认密码" prop="userPwd">
-            <el-input type="password" v-model="dataForm.confirmpassword" placeholder="确认密码"></el-input>
-          </el-form-item>
-        </span> -->
-        <el-form-item v-if="sonTitle | titleFilter(sonTitle, titleMap)">
-          <uploadImage :image-url="dataForm.userIcon" flag="userIcon"></uploadImage>
-          <uploadImage :image-url="dataForm.favicon" flag="favicon"></uploadImage>
-        </el-form-item>
         <el-form-item label="电子邮件" prop="email">
           <el-input type="email" v-model="dataForm.email" placeholder="电子邮件"></el-input>
         </el-form-item>
@@ -31,11 +19,13 @@
         <el-form-item label="个性签名" prop="signature">
           <el-input :autosize="{ minRows: 2, maxRows: 4}" v-model="dataForm.signature" type="textarea" placeholder="Please input"></el-input>
         </el-form-item>
+        <el-form-item v-if="sonTitle | titleFilter(sonTitle, titleMap)" label="用户头像" prop="userIcon">
+          <uploadImage :user-icon="dataForm.userIcon" flag="userIcon" @updateIcon="updateIconHandler"></uploadImage>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="success" round>主页设置</el-button>
         <el-button type="primary" @click.native.prevent="sureHandler" :loading="sureLoading" round>确认</el-button>
-        <!-- <el-button @click.native.prevent="reset" round>重置</el-button> -->
         <el-button @click="visible = false" round>取 消</el-button>
       </div>
     </el-dialog>
@@ -45,22 +35,13 @@
   </div>
 </template>
 <script>
-  import * as USER_API from '@/api/user'
-  import uploadImage from '@/components/Upload//uploadImage'
+  import * as USER_API from "@/api/user";
+  import uploadImage from "@/components/Upload//uploadImage";
   export default {
     components: {
       uploadImage
     },
     data() {
-      let confirmpasswordCheck = (rule, value, callback) => {
-        if (value === "") {
-          return callback(new Error("密码是必须的"));
-        } else if (value !== this.dataForm.userPwd) {
-          return callback(new Error("两次输入的密码不一致"));
-        } else {
-          return callback();
-        }
-      };
       let telCheck = (rule, value, callback) => {
         if (value === "") {
           return callback(new Error("电话号码是必须的"));
@@ -77,15 +58,14 @@
         uploadVisible: false,
         sureLoading: false,
         dataForm: {
-          pickName: '',
-          userPwd: '',
-          confirmpassword: '',
-          userPhone: '',
-          email: '',
-          signature: '',
-          userIcon: '',
+          pickName: "",
+          confirmpassword: "",
+          userPhone: "",
+          email: "",
+          signature: "",
+          userIcon: "",
           roleId: 0,
-          favicon: ''
+          favicon: ""
         },
         rules: {
           pickName: [{
@@ -102,11 +82,6 @@
             message: "密码是必须的！长度为6位",
             trigger: "blur"
           }],
-          confirmpassword: [{
-            required: true,
-            validator: confirmpasswordCheck,
-            trigger: "blur"
-          }],
           userPhone: [{
             required: true,
             validator: telCheck,
@@ -120,8 +95,8 @@
           }]
         },
         titleMap: {
-          'Create': false,
-          'Edit': true
+          Create: false,
+          Edit: true
         }
       };
     },
@@ -140,7 +115,7 @@
       },
       sonTitle: {
         type: String,
-        default: 'Create'
+        default: "Create"
       }
     },
     watch: {
@@ -151,25 +126,26 @@
     filters: {},
     methods: {
       open() {
-        this.dataForm = this.dataList
+        console.log(this.dataList)
+        this.dataForm = this.dataList;
       },
       close() {
-        this.reset()
-        this.$emit('update:show', false)
+        this.reset();
+        this.$emit("update:show", false);
       },
       reset() {
         this.sureLoading = false;
-        this.$emit('update:dataList', Object.create(null))
-        // this.$refs['dataForm'].resetFields();
+        this.$emit("update:dataList", Object.create(null));
       },
       titleFilter(title, titleMap) {
-        return titleMap[title]
+        return titleMap[title];
       },
       sureHandler() {
         if (this.titleFilter(this.sonTitle, this.titleMap)) {
           this.$refs.dataForm.validate(valid => {
             if (valid) {
               this.sureLoading = true;
+            console.log(this.dataForm)
               USER_API.updateUser(this.dataForm).then(res => {
                 this.sureLoading = false;
                 this.$message({
@@ -177,13 +153,13 @@
                   message: res.message,
                   type: "success"
                 });
-                this.reset()
+                this.reset();
                 this.visible = false;
               });
             } else {
               console.log("submit err");
             }
-          })
+          });
         } else {
           this.$refs.dataForm.validate(valid => {
             if (valid) {
@@ -195,7 +171,7 @@
                   message: res.message,
                   type: "success"
                 });
-                this.reset()
+                this.reset();
                 this.visible = false;
               });
             } else {
@@ -203,6 +179,9 @@
             }
           });
         }
+      },
+      updateIconHandler(imgIcon) {
+        this.dataForm.userIcon = imgIcon
       }
     }
   };

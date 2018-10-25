@@ -1,7 +1,7 @@
 <template>
   <el-menu class="navbar" mode="horizontal">
     <a href="#" class="logo">
-      <span class=""><b><i class="iconfont icon-rentijiance">&nbsp;</i>张超超的小后台管理</b></span>
+      <span class=""><b><i class="iconfont icon-rentijiance">&nbsp;</i>我叫张悄悄</b></span>
     </a>
     <hamburger class="hamburger-container" :toggleclick="toggleSideBar"></hamburger>
     <breadcrumb class="breadcrumb-container"></breadcrumb>
@@ -42,12 +42,12 @@
           <b>{{name}}</b>
         </div>
         <el-dropdown-menu slot="dropdown">
-          <div >
+          <div>
             <div class="header-pic" :to="{ path: '/resetPwd' }">
               <!-- <el-tooltip class="item" effect="light" content="点击修改信息" placement="top-end">
                 <img :src='avatar' class="img-circle" alt="User Image" @click="updateMsgHandler">
               </el-tooltip> -->
-              <el-tooltip class="item" effect="light" content="点击修改信息" placement="top-end" >
+              <el-tooltip class="item" effect="light" content="点击修改信息" placement="top-end">
                 <pan-thumb :image="avatar">
                   {{signature}}
                 </pan-thumb>
